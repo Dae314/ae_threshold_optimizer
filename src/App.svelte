@@ -10,8 +10,8 @@
 	let samples;
 	let optimal_thresh = 0;
 	let curComp = 'A';
-	const init_dmg_data = localStorage.getItem(curComp);
-	const init_stam_data = localStorage.getItem(`${curComp}_stam`);
+	const init_dmg_data = window.localStorage.getItem(curComp);
+	const init_stam_data = window.localStorage.getItem(`${curComp}_stam`);
 	if(init_dmg_data) raw_samples = init_dmg_data;
 	if(init_stam_data) stam = Number(init_stam_data);
 	
@@ -76,8 +76,8 @@
 
 	async function changeComp(comp) {
 		curComp = comp;
-		const dmg_data = localStorage.getItem(comp);
-		const stam_data = localStorage.getItem(`${comp}_stam`);
+		const dmg_data = window.localStorage.getItem(comp);
+		const stam_data = window.localStorage.getItem(`${comp}_stam`);
 		raw_samples = dmg_data ? dmg_data : default_samples;
 		stam = stam_data ? Number(stam_data) : default_stam;
 		await tick();
@@ -85,8 +85,8 @@
 	}
 
 	function saveData() {
-		localStorage.setItem(curComp, raw_samples);
-		localStorage.setItem(`${curComp}_stam`, `${stam}`);
+		window.localStorage.setItem(curComp, raw_samples);
+		window.localStorage.setItem(`${curComp}_stam`, `${stam}`);
 	}
 </script>
 
