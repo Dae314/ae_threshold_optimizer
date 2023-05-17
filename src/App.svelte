@@ -85,6 +85,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>AE Threshold Optimizer</title>
+</svelte:head>
+
 <nav>
 	<button type="button" class="navButton" class:selected={curComp === 'A'} on:click={() => changeComp('A')}>A Comp</button>
 	<button type="button" class="navButton" class:selected={curComp === 'B'} on:click={() => changeComp('B')}>B Comp</button>
