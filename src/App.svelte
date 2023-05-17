@@ -4,13 +4,16 @@
 	const retry_cost = 4;
 	const rec_samples = 30;
 	const default_samples = '1e9\n2e9\n3e9\n4e9\n5e9';
-	let stam = 1000;
+	const default_stam = 1000;
+	let stam = default_stam;
 	let raw_samples = default_samples;
 	let samples;
 	let optimal_thresh = 0;
 	let curComp = 'A';
 	const init_dmg_data = localStorage.getItem(curComp);
+	const init_stam_data = localStorage.getItem(`${curComp}_stam`);
 	if(init_dmg_data) raw_samples = init_dmg_data;
+	if(init_stam_data) stam = Number(init_stam_data);
 	
 	$: samples = raw_samples.split('\n').map(e => Number(e));
 	$: moreSamples = samples.length <= rec_samples ? rec_samples - samples.length : 0;
@@ -74,13 +77,16 @@
 	async function changeComp(comp) {
 		curComp = comp;
 		const dmg_data = localStorage.getItem(comp);
+		const stam_data = localStorage.getItem(`${comp}_stam`);
 		raw_samples = dmg_data ? dmg_data : default_samples;
+		stam = stam_data ? Number(stam_data) : default_stam;
 		await tick();
 		calculate();
 	}
 
 	function saveData() {
 		localStorage.setItem(curComp, raw_samples);
+		localStorage.setItem(`${curComp}_stam`, `${stam}`);
 	}
 </script>
 
