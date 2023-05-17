@@ -41,7 +41,6 @@
 		for(let i = min; i <= max; i+=step) {
 			results.push(thresholdEV(i));
 		}
-		console.log(results)
 		optimal_thresh = min + results.indexOf(Math.max(...results))*step;
 		saveData();
 	}
