@@ -14,8 +14,9 @@
 	const init_stam_data = window.localStorage.getItem(`${curComp}_stam`);
 	if(init_dmg_data) raw_samples = init_dmg_data;
 	if(init_stam_data) stam = Number(init_stam_data);
+	const empty_regex = /^\s*$(?:\r\n?|\n)/gm;
 	
-	$: samples = raw_samples.split('\n').map(e => Number(e));
+	$: samples = raw_samples.replace(empty_regex, "").split('\n').filter(e => e).map(e => Number(e));
 	$: moreSamples = samples.length <= rec_samples ? rec_samples - samples.length : 0;
 
 	onMount(() => {
