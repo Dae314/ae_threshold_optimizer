@@ -18,6 +18,7 @@
 	
 	$: samples = raw_samples.replace(empty_regex, "").split('\n').filter(e => e).map(e => Number(e));
 	$: moreSamples = samples.length <= rec_samples ? rec_samples - samples.length : 0;
+	$: remainingRetries = stam < take_cost ? 0 : Math.floor((stam % take_cost)/retry_cost);
 
 	onMount(() => {
 		calculate();
@@ -120,6 +121,8 @@
 		<section>
 			<p>Retry if damage is less than:<br/>
 			{optimal_thresh.toLocaleString('en-US')}</p>
+			<br/>
+			<p class="remainingRetries" class:alert={remainingRetries === 0}>{remainingRetries} retries remaining before you lose an attack</p>
 		</section>
 		<section id="buttonSect">
 			<button class="updateButton" type="button" on:click={handleTake} disabled={stam < take_cost}>Take Damage</button>
@@ -194,5 +197,9 @@
 	}
 	p {
 		margin: 0;
+	}
+	.remainingRetries.alert {
+		font-weight: bold;
+		color: red;
 	}
 </style>
