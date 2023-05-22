@@ -29,24 +29,26 @@
 		const sample_max = Math.max(...samples);
 		let scale;
 		if(sample_min >= 1e12) {
-			scale = 1e11;
+			scale = 1e10;
 		} else	if(sample_min >= 1e9) {
-			scale = 1e8;
+			scale = 1e7;
 		} else if(sample_min >= 1e6) {
-			scale = 1e5;
+			scale = 1e4;
 		} else if(sample_min >= 1e3) {
-			scale = 100;
-		} else {
 			scale = 10;
+		} else {
+			scale = 1;
 		}
 		const min = Math.round(sample_min/scale)*scale;
 		const max = Math.round(sample_max/scale)*scale;
 		const step = (max - min)/20;
 		let results = [];
+		results.push(thresholdEV(0)); // always include an evaluation for 0 threshold
 		for(let i = min; i <= max; i+=step) {
 			results.push(thresholdEV(i));
 		}
-		optimal_thresh = min + results.indexOf(Math.max(...results))*step;
+		const optimal_index = results.indexOf(Math.max(...results));
+		optimal_thresh = optimal_index === 0 ? 0 : min + (optimal_index - 1)*step;
 		saveData();
 	}
 	
@@ -119,10 +121,14 @@
 			<button type="button" on:click={calculate}>Refresh</button>
 		</section>
 		<section>
-			<p>Retry if damage is less than:<br/>
-			{optimal_thresh.toLocaleString('en-US')}</p>
+			{#if optimal_thresh === 0}
+				<p class="alert">Retry not recommended.</p>
+			{:else}
+				<p>Retry if damage is less than:<br/>
+				{optimal_thresh.toLocaleString('en-US')}</p>
+			{/if}
 			<br/>
-			<p class="remainingRetries" class:alert={remainingRetries === 0}>{remainingRetries} retries remaining before you lose an attack</p>
+			<p class:alert={remainingRetries === 0}>{remainingRetries} retries remaining before you lose an attack</p>
 		</section>
 		<section id="buttonSect">
 			<button class="updateButton" type="button" on:click={handleTake} disabled={stam < take_cost}>Take Damage</button>
@@ -198,7 +204,7 @@
 	p {
 		margin: 0;
 	}
-	.remainingRetries.alert {
+	.alert {
 		font-weight: bold;
 		color: red;
 	}
