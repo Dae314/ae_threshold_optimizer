@@ -136,7 +136,14 @@
 		</section>
 	</div>
 </main>
-
+<footer>
+	<h5>How it works:</h5>
+	<p>The app takes your team's test performance and calculates an expected value for your damage across multiple potential thresholds. The threshold that provides the highest expected damage value is shown to you.</p>
+	<h5>Why does it recommend a threshold when I might lose an attack?</h5>
+	<p>At high stamina, the app is accounting for the fact that you can make up for losing an attack with better damage performance on the attacks that you take. You'll notice that the thresholds don't seem to match up with your number of retries before losing an attack at high stamina, but as your stamina falls below 200, the thresholds will start to match the number of retries you have left.</p>
+	<h5>Do I need to do follow the threshold exactly?</h5>
+	<p>No, it's your game, you do what you want. This app uses statistics that will optimze for population performance. That leaves some room for you optimize your individual performance if you see fit.</p>
+</footer>
 
 <style>
 	nav {
@@ -207,5 +214,13 @@
 	.alert {
 		font-weight: bold;
 		color: red;
+	}
+	footer {
+		color: #ECEFF4;
+		max-width: 600px;
+	}
+	footer h5 {
+		font-size: 1rem;
+		margin: 10px 0px 5px 0px;
 	}
 </style>
